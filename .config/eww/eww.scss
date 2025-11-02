@@ -1,0 +1,192 @@
+* {
+    /* Inherit your terminal/Pywal colors */
+    all: unset;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 16px;
+    background-color: transparent;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
+}
+.date-display {
+	font-weight : bold;
+	font-size : 20px;
+}
+.calendar-widget {
+    /* FIX: Use rgba() for background color */
+    background-color: transparent;
+	font-size : 16px;
+
+    border-radius: 12px;
+    padding: 15px;
+    border: 2px solid #9999FF;
+    color: #FFFFFF;
+}
+
+.time-display {
+	font-weight : bold;
+	font-size : 90px;
+}
+
+/* You might need to make the calendar itself transparent too */
+.calendar-widget calendar {
+    /* Ensure the inner GTK calendar background is also transparent */
+    background-color: transparent;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
+}
+
+.calendar {
+    margin: 5px;
+	font-size : 18px;
+    background-color: transparent; /* Dark background with transparency */
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
+}
+
+.album_art {
+	background-size: 220px;
+	min-height: 220px;
+	min-width: 220px;
+	margin: 20px;
+	border-radius: 14px;
+    background-color: transparent;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
+    border: 2px solid #9999FF; /* Highlight color */
+}
+
+.song {
+	font-size : 20px;
+	font-weight : bold;
+	margin : 40px 0px 0px 0px;
+    background-color: transparent;
+}
+
+.artist {
+	font-size : 20px;
+	font-weight : normal;
+	margin : 0px 0px 15px 0px;
+    background-color: transparent;
+}
+
+.buttons {
+    background-color: transparent;
+}
+
+.buttons button {
+    background-color: transparent;
+    border: 2px solid #9999FF; /* Highlight color */
+    padding: 15px;
+}
+
+.buttons button:hover,
+.buttons button:active,
+.buttons button:focus {
+    background-color: rgba(165, 108, 136, 0.3);
+     /*color: #A56C88; Keep the hover color change visible */
+}
+
+.prev {
+	font-size : 42px;
+	font-weight : normal;
+	margin: 0px 0px 0px 15px;
+    background-color: transparent;
+    border: 2px solid #9999FF; /* Highlight color */
+    border-radius: 12px;
+}
+.play {
+	font-size : 60px;
+	font-weight : bold;
+	margin: 0px 10px 0px 10px;
+    background-color: transparent;
+    border: 2px solid #9999FF; /* Highlight color */
+    border-radius: 12px;
+}
+.next {
+	font-size : 42px;
+	font-weight : normal;
+	margin: 0px 15px 0px 0px;
+    background-color: transparent;
+    border: 2px solid #9999FF; /* Highlight color */
+    border-radius: 12px
+}
+.spotify {
+    background-color: transparent; /* Dark background with transparency */
+    border-radius: 12px;
+    border: 2px solid #9999FF; /* Highlight color */
+}
+
+
+.music_bar scale trough highlight {
+	all: unset;
+	background-color: #9999FF;
+    border-radius: 12px;
+}
+.music_bar scale trough {
+	all: unset;
+	background-color: rgba(0, 0, 0, 0.4);
+
+	border-radius: 8px;
+	min-height: 20px;
+	min-width: 200px;
+	margin : 10px 0px 0px 0px;
+}
+
+
+.control-center-container {
+    border-radius: 12px;
+    border: 2px solid #9999FF; /* Highlight color */
+}
+
+.control-box {
+    margin: 10px 0;
+	margin: 20px;
+}
+
+/* Style for the volume and brightness icons */
+.icon-volume, .icon-brightness {
+    font-size: 20px;
+}
+
+/* Style for the slider track */
+scale {
+    min-height: 10px; /* Make track thick enough for touch */
+    min-width: 200px; /* Ensure sufficient width */
+}
+
+/* Style for the slider handle (thumb) */
+scale trough highlight {
+    border-radius: 12px;
+	background-color: #9999FF;
+}
+ scale trough {
+	all: unset;
+	background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+	min-height: 20px;
+	min-width: 200px;
+	margin : 10px 0px 0px 0px;
+}
+
+/*
+scale slider {
+    background-color: #7AA2F7;
+    border-radius: 50%;
+    min-width: 15px;
+    min-height: 15px;
+}
+*/
+
+.powericons {
+    background-repeat: no-repeat;
+	background-size: 48px;
+	min-height: 48px;
+	min-width: 48px;
+}
+
+.quote_box {
+	margin: 20px;
+}
+
+.quote_text {
+    font-family: "SF Pro Display Bold";
+	font-size : 32px;
+	font-style: italic;
+	font-weight : bold;
+}

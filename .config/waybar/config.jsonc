@@ -1,0 +1,325 @@
+// -*- mode: jsonc -*-
+{
+  // "layer": "top", // Waybar at top layer
+  // "position": "bottom", // Waybar position (top|bottom|left|right)
+  "height": 30, // Waybar height (to be removed for auto height)
+  // "width": 1280, // Waybar width
+  "spacing": 0, // Gaps between modules (4px)
+  // Choose the order of the modules
+  "modules-left": [
+    "hyprland/window"
+    //,"hyprland/submap"
+  ],
+  "modules-center": ["hyprland/workspaces", "custom/spacer", "mpris"],
+  "modules-right": [
+    //"mpd",
+    "idle_inhibitor",
+    //"custom/volume",
+    "wireplumber",
+    //"network",
+    //"bluetooth",
+    "power-profiles-daemon",
+    "cpu",
+    "memory",
+    //"temperature",
+    //"backlight",
+    //"keyboard-state",
+    //"hyprland/language",
+    "battery",
+    "clock",
+    "tray",
+    "custom/power"
+  ],
+  // Add the definition for the new custom spacer module (usually near the bottom)
+  "custom/spacer": {
+    "format": " | ", // A single space or empty string
+    "tooltip": false
+  },
+  "hyprland/window": {
+    "separate-outputs": true,
+    "icon": true
+  },
+  "hyprland/workspaces": {
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "show-special": true
+  },
+  "hyprland/submap": {
+    "format": "✌️ {}",
+    "max-length": 8,
+    "tooltip": true
+  },
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": "{name} {icon}",
+    "format-icons": {
+      "locked": "",
+      "unlocked": ""
+    }
+  },
+  "sway/mode": {
+    "format": "<span style=\"italic\">{}</span>"
+  },
+  "sway/scratchpad": {
+    "format": "{icon} {count}",
+    "show-empty": false,
+    "format-icons": ["", ""],
+    "tooltip": true,
+    "tooltip-format": "{app}: {title}"
+  },
+  "mpd": {
+    "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+    "format-disconnected": "Disconnected ",
+    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+    "unknown-tag": "N/A",
+    "interval": 5,
+    "consume-icons": {
+      "on": " "
+    },
+    "random-icons": {
+      "off": "<span color=\"#f53c3c\"></span> ",
+      "on": " "
+    },
+    "repeat-icons": {
+      "on": " "
+    },
+    "single-icons": {
+      "on": "1 "
+    },
+    "state-icons": {
+      "paused": "",
+      "playing": ""
+    },
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    },
+    "tooltip-format-activated": " Idle Inhibitor: Active\nSystem will not sleep",
+    "tooltip-format-deactivated": " Idle Inhibitor: Inactive\nSystem sleep enabled"
+  },
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+  "clock": {
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": "{:%Y-%m-%d}",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+  "cpu": {
+    "format": "{usage}% ",
+    "tooltip": true,
+    "states": {
+      "warning": 50, // Waybar applies the class ".warning" when usage hits 50%
+      "critical": 85 // Waybar applies the class ".critical" when usage hits 85%
+    },
+    "on-click":  "pkill -fx 'alacritty --class btop-float -e btop' || alacritty --class btop-float -e btop"
+  },
+  "memory": {
+    "format": "{}% ",
+    "tooltip": true,
+    "tooltip-format": "{used:0.1f}GiB used",
+    "states": {
+      "warning": 50, // Waybar applies the class ".warning" when usage hits 50%
+      "critical": 85 // Waybar applies the class ".critical" when usage hits 85%
+    },
+    "on-click": "pkill -fx 'alacritty --class btop-float -e btop' || alacritty --class btop-float -e btop"
+  },
+  "temperature": {
+    "critical-threshold": 80,
+    "format-critical": "{temperatureC}°C {icon}",
+    "format": "{temperatureC}°C {icon}",
+    "format-icons": ["", ""],
+    "tooltip": true,
+    "on-click-right": "alacritty -e sensors"
+  },
+  "backlight": {
+    // "device": "acpi_video1",
+    "format": "{percent}% {icon}",
+    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "tooltip": true
+  },
+  "battery": {
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{capacity}% {icon}",
+    "format-full": "{capacity}% {icon}",
+    "format-charging": "{capacity}% ",
+    //"format-plugged": "{capacity}% ",
+    // "format-alt": "{time} {icon}",
+    // "format-good": "", // An empty format will hide the module
+    // "format-full": "",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip": true
+  } /*
+    "mpris": {
+        "format": "{} {title}", // Shows icon and title when playing
+        "format-paused": "{} [Paused]", // Shows icon and 'Paused' when paused
+        "format-stopped": "Idle", // Shows 'Idle' when no players are running
+        "format-icons": {
+            "Playing": "▶",
+            "Paused": "⏸",
+            "Stopped": "⏹"
+        },
+        // The player name replaces the first {} in the format string
+        "format-player": "{player_icon}",
+        "player-icons": {
+            "spotify": "", // Font Awesome icon for Spotify
+            "mpv": "🎬",
+            "default": "🎵"
+        },
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous",
+        // Set max length to prevent long titles from breaking the bar
+        "max-length": 30
+    },*/,
+  "mpris": {
+    // 1. Combine player icon, status icon, and title in one format
+    "format": "{player_icon} - {status_icon} {title}",
+    //"format-paused": "{player_icon} {status_icon} {title}", // Keep title visible when paused
+    "format-stopped": "Idle",
+
+    // 2. Clearer status icons
+    "status-icons": {
+      "playing": "",
+      "paused": "",
+      "stopped": ""
+    },
+
+    // 3. Keep player icons but ensure "player-icons" is referenced correctly
+    "format-player": "{player_icon}",
+    "player-icons": {
+      "spotify": "",
+      "brave.instance2": "󰊯",
+      "vlc": "󰕼",
+      "mpv": "󰊺", // Switched to a monitor/TV icon for MPV for distinction
+      "default": "" // Changed to Music Notes
+    },
+
+    // 4. Increase max length slightly for better readability of song names
+    "max-length": 40,
+
+    // 5. Keep functional controls (On-click is crucial)
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+  },
+  // "battery#bat2": {
+  //     "bat": "BAT0"
+  // },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    //"tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "󰉁",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+  "network": {
+    // "interface": "wlp2*", // (Optional) To force the use of this interface
+    "format-wifi": "{essid} ({signalStrength}%) ",
+    //"format-ethernet": "{ipaddr}/{cidr} ",
+    "tooltip-format": "{ifname} via {gwaddr} ",
+    //"format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "Disconnected 󰖪",
+    //"format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "nmcli device wifi list | tail -n +2 | wofi --dmenu | awk '{print $1}' | xargs nmcli device wifi connect"
+  },
+  "bluetooth": {
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱 {num_connections}",
+    "format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager",
+    "on-click-right": "rfkill toggle bluetooth"
+  },
+  "custom/volume": {
+    "format": "Vol:", // Displays 'Vol: 75'
+    "exec": "pamixer --get-volume-human", // Simple command to get percentage
+    "interval": 1, // Update every second
+    "on-click": "pamixer --toggle-mute",
+    "on-click-right": "pavucontrol"
+  },
+  "wireplumber": {
+    "format": "{volume}% {icon}",
+    "format-muted": "󰖁",
+    "format-icons": ["󰕿", "󰖀", "󰕾"],
+    "on-click": "pamixer --toggle-mute",
+    "on-click-right": "pavucontrol"
+  },
+  "wpulseaudio": {
+    // "scroll-step": 1, // %, can be a float
+    "format": "{volume}% {icon} {format_source}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": "{volume}% ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+  "custom/media": {
+    "format": "{icon} {text}",
+    "return-type": "json",
+    "max-length": 40,
+    "format-icons": {
+      "spotify": "",
+      "default": "🎜"
+    },
+    "escape": true,
+    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+  },
+  "custom/power": {
+    "format": "⏻ ",
+    "tooltip": false,
+    "on-click": "wlogout -n --buttons-per-row 2 -l ~/.config/wlogout/layout -C ~/.config/wlogout/style.css -c 20 -r 20",
+    "class": "power-button"
+  }
+}

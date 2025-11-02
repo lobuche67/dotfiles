@@ -1,0 +1,21 @@
+[global]
+# General colors
+frame_color = {color8}
+background = {color0}
+foreground = {color7}
+
+# Urgent colors
+[urgency_low]
+frame_color = {color3}
+background = {color0}
+foreground = {color7}
+
+[urgency_normal]
+frame_color = {color4}
+background = {color0}
+foreground = {color7}
+
+[urgency_critical]
+frame_color = {color1}
+background = {color0}
+foreground = {color7}

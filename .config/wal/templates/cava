@@ -1,0 +1,13 @@
+[color]
+# Map colors 0-7 to CAVA's standard color names
+gradient_color_1 = '{color0}'
+gradient_color_2 = '{color1}'
+gradient_color_3 = '{color2}'
+gradient_color_4 = '{color3}'
+gradient_color_5 = '{color4}'
+gradient_color_6 = '{color5}'
+gradient_color_7 = '{color6}'
+gradient_color_8 = '{color7}'
+
+# You can also use other Pywal variables for dynamic backgrounds:
+# background = '{color0}'

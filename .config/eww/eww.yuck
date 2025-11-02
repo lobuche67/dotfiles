@@ -1,0 +1,337 @@
+
+;;============================================================
+;; CALENDAR WIDGET
+;;============================================================
+
+(defpoll date_data
+    :interval "10s" "date '+%A, %d %B'"
+)
+
+(defwidget date_widget []
+    (label
+        :text "${date_data}"
+        :class "date-display"
+        :limit-width 3
+        :truncate true
+        :wrap true
+    )
+)
+
+(defwidget calendar_body []
+    (box
+        :class "calendar-widget"
+        :orientation "v"
+        :space-evenly "false"
+        :spacing 20
+        (date_widget) ; Include the date widget here
+        (calendar :class "calendar")
+    )
+)
+
+(defwindow calendar_window
+    :monitor 0
+    :stacking "bottom"
+    :geometry (geometry
+        :width "400px"
+        :height "200px"
+        :anchor "center left"
+        :x "100px"
+        :y "100px"
+    )
+    :reserve (struts
+        :distance "80px"
+        :side "top")
+    :windowtype "dock"
+    :wm-ignore false
+    (calendar_body)
+)
+
+;;============================================================
+;; SPOTIFY WIDGET
+;;============================================================
+
+;; reference: https://github.com/husseinhareb/hyprland-eww.git
+
+;; Spotify vars
+(defpoll SONG
+    :interval "1s" `~/.config/eww/scripts/spotify/spotify-song.sh`
+)
+
+(defpoll ARTIST
+    :interval "1s" `~/.config/eww/scripts/spotify/spotify-artist.sh`
+)
+
+(defpoll COVER
+    :interval "1s" `~/.config/eww/scripts/spotify/spotify-artwork.sh`
+)
+
+(defpoll STATUS
+    :interval "1s" `~/.config/eww/scripts/spotify/spotify-status.sh`
+)
+
+(defpoll POSITION_PERCENT
+    :interval "1s" `~/.config/eww/scripts/spotify/spotify-position-percent.sh`
+)
+
+;; spotify
+(defwidget spotify []
+	(box
+        :class "wid_get"
+        :orientation "h"
+        :space-evenly "false"
+        :vexpand "false"
+        :hexpand "false"
+        (box
+            :class "album_art"
+            :vexpand "false"
+            :hexpand "false"
+            :style "background-image: url('${COVER}');"
+        )
+        (box
+            :orientation "v"
+            :spacing 20
+            :space-evenly "false"
+            :vexpand "false"
+            :hexpand "false"
+            (label
+                :halign "center"
+                :class "song"
+                :wrap "true"
+                :limit-width 20
+                :text SONG
+            )
+            (label
+                :halign "center"
+                :class "artist"
+                :wrap "true"
+                :limit-width 15
+                :text ARTIST
+            )
+            (box
+                :class "buttons"
+                :orientation "h"
+                :spacing 1
+                :halign "center"
+                :space-evenly "true"
+                :vexpand "false"
+                :hexpand "false"
+                (button
+                    :class "prev"
+                    :onclick "~/.config/eww/scripts/spotify/spotify-previous.sh"
+                    "󰒮"
+                )
+                (button
+                    :class "play"
+                    :onclick "~/.config/eww/scripts/spotify/spotify-pause.sh"
+                    STATUS
+                )
+                (button
+                    :class "next"
+                    :onclick "~/.config/eww/scripts/spotify/spotify-next.sh"
+                    "󰒭"
+                )
+            )
+            (box
+                :class "music_bar"
+                :halign "center"
+                :vexpand "false"
+                :hexpand "false"
+                (scale
+                ;;:onscroll "mpc -q seek +1"
+                    :active "false"
+                    :min 0
+                    :max 100
+                    :value POSITION_PERCENT
+                )
+            )
+        )
+    )
+)
+
+;; spotify
+(defwindow spotify
+    :monitor 0
+    :geometry (geometry
+        :x "100px"
+        :y "100px"
+        :width "500px"
+        :height "262px"
+        :anchor "top left")
+    :stacking "bottom"
+    :reserve (struts
+        :distance "80px"
+        :side "top")
+    :windowtype "dock"
+    :wm-ignore false
+    (spotify)
+)
+
+;;============================================================
+;; TIME WIDGET
+;;============================================================
+
+
+(defpoll time_data
+    :interval "5s" "date '+%H:%M'"
+)
+
+(defwidget time_widget []
+    (label
+        :text "${time_data}"
+        :class "time-display"
+        :limit-width 3
+        :truncate true
+        :wrap true
+    )
+)
+
+(defwindow time_window
+    :monitor 0
+    :stacking "bottom"
+    :geometry (geometry
+        :width "400px"
+        :height "200px"
+        :anchor "top center"
+        :x "0%"
+        :y "50px"
+    )
+    :windowtype "dock"
+    :wm-ignore false
+    (time_widget)
+)
+
+;; ====================================
+;; CONTROL-CENTER WIDGET
+;;============================================================
+
+(defpoll volume_level :interval "1s"
+    "pamixer --get-volume"
+)
+(defpoll brightness_level :interval "1s"
+    "brightnessctl -m | awk -F, '{print $4}' | tr -d '%' "
+)
+
+; --- VOLUME SLIDER WIDGET ---
+(defwidget volume_slider []
+    (box
+        :class "control-box"
+        :orientation "h"
+        :spacing 20
+        :space-evenly "false"
+        :vexpand "false"
+        :hexpand "false"
+        (label
+            :text ""
+            :class "icon-volume")
+        (scale
+            :class "slider-volume"
+            :min 0
+            :max 101 ; Max value is 101 to allow for a slight boost over 100
+            :value volume_level
+            ; CRITICAL: Executes the setter script every time the slider value changes
+            :onchange "~/.config/eww/scripts/control-center/eww_set_volume.sh {}"
+        )
+        (label
+            :text "${volume_level}%"
+            :class "label-level")
+    )
+)
+
+; --- BRIGHTNESS SLIDER WIDGET ---
+(defwidget brightness_slider []
+    (box
+        :class "control-box"
+        :orientation "h"
+        :spacing 20
+        :space-evenly "false"
+        :vexpand "false"
+        :hexpand "false"
+        (label
+            :text ""
+            :class "icon-brightness")
+        (scale
+            :class "slider-brightness"
+            :min 0
+            :max 100
+            :value brightness_level
+            ; CRITICAL: Executes the setter script every time the slider value changes
+            :onchange "~/.config/eww/scripts/control-center/eww_set_brightness.sh {}"
+        )
+        (label
+            :text "${brightness_level}%"
+            :class "label-level")
+    )
+)
+
+; --- MASTER CONTROL WINDOW (Combine them into a single window for easy access) ---
+(defwindow control_center
+    :monitor 0
+    :stacking "bg"
+    :geometry (geometry
+        :width "0px"
+        :height "0px"
+        :anchor "right top"
+        :x "100px"
+        :y "100px"
+    )
+    (box
+        :class "control-center-container"
+        :orientation "v"
+        :halign "center"
+        :valign "center"
+        (volume_slider)
+        (brightness_slider)
+    )
+)
+
+
+;;============================================================
+;; QUOTES WIDGET
+;;============================================================
+
+(defpoll quotes
+    :interval "5m" `~/.config/eww/scripts/quote.sh`
+)
+
+
+(defwidget quotes_widget []
+    (box
+        :class "winbox"
+        (box
+            :class "quote_box"
+            :orientation "h"
+            :valign "center"
+            :halign "center"
+            :spacing 10
+            :space-evenly "false"
+            (label
+                :class "quote_text"
+                :valign "center"
+                :halign "center"
+                :text "\"${quotes}\""
+                :wrap true
+                :justify "center"
+                :show-truncated false
+            )
+        )
+    )
+)
+
+
+(defwindow quotes_window
+    :monitor 0
+    :stacking "bottom"
+    :geometry (geometry
+        :width "800px"
+        :height "0px"
+        :anchor "center top"
+        :x "0px"
+        :y "200px"
+    )
+    :reserve (struts
+        :distance "80px"
+        :side "top")
+    :windowtype "dock"
+    :wm-ignore false
+    (quotes_widget)
+)
