@@ -1,0 +1,18 @@
+# ~/.config/wal/templates/ncspot_colors.toml
+
+# Pywal-processed theme block:
+[theme]
+background = "{color0}"
+primary = "{color7}"
+secondary = "{color8}"
+title = "{color4}"
+playing = "{color4}"
+playing_selected = "{color7}"
+playing_bg = "{color0}"
+highlight = "{color7}"
+highlight_bg = "{color4}"
+error = "{color1}"
+error_bg = "{color0}"
+statusbar = "{color7}"
+statusbar_progress = "{color2}"
+statusbar_bg = "{color0}"

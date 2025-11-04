@@ -4,7 +4,7 @@
 ;;============================================================
 
 (defpoll date_data
-    :interval "10s" "date '+%A, %d %B'"
+    :interval "1h" "date '+%A, %d %B'"
 )
 
 (defwidget date_widget []
@@ -52,25 +52,41 @@
 
 ;; reference: https://github.com/husseinhareb/hyprland-eww.git
 
-;; Spotify vars
-(defpoll SONG
-    :interval "1s" `~/.config/eww/scripts/spotify/spotify-song.sh`
+;; 1. LISTENER (STAYS EVENT-DRIVEN for Song/Artist/Status)
+(deflisten spotify_metadata
+    :initial '{"status": "Stopped", "song": "Nothing Playing", "artist": "N/A", "cover": "", "position_percent": 0}'
+    `~/.config/eww/scripts/spotify/spotify-metadata-listener.sh`
 )
 
-(defpoll ARTIST
-    :interval "1s" `~/.config/eww/scripts/spotify/spotify-artist.sh`
+;; 2. POLLER (HYBRID - ONLY RUNS for the progress bar when status is Playing)
+(defpoll position_poll_percent
+    :interval "1s"
+    :initial 0
+    :run-while {spotify_metadata.status == "Playing"} ; <--- CRITICAL POWER SAVING LINE
+    `~/.config/eww/scripts/spotify/spotify-get-position-poll.sh`
 )
 
-(defpoll COVER
-    :interval "1s" `~/.config/eww/scripts/spotify/spotify-artwork.sh`
-)
-
-(defpoll STATUS
-    :interval "1s" `~/.config/eww/scripts/spotify/spotify-status.sh`
-)
+;; ;; Spotify vars
+;; (defpoll SONG
+;;     :interval "1s" `~/.config/eww/scripts/spotify/spotify-song.sh`
+;; )
+;;
+;; (defpoll ARTIST
+;;     :interval "1s" `~/.config/eww/scripts/spotify/spotify-artist.sh`
+;; )
+;;
+;; (defpoll COVER
+;;     :interval "1s" `~/.config/eww/scripts/spotify/spotify-artwork.sh`
+;; )
+;;
+;; (defpoll STATUS
+;;     :interval "1s" `~/.config/eww/scripts/spotify/spotify-status.sh`
+;; )
 
 (defpoll POSITION_PERCENT
-    :interval "1s" `~/.config/eww/scripts/spotify/spotify-position-percent.sh`
+    :interval "1s"
+    :initial "0"
+    `~/.config/eww/scripts/spotify/spotify-position-percent.sh`
 )
 
 ;; spotify
@@ -85,7 +101,8 @@
             :class "album_art"
             :vexpand "false"
             :hexpand "false"
-            :style "background-image: url('${COVER}');"
+            :style "background-image: url('${spotify_metadata.cover}');"
+            ;; :style "background-image: url('${COVER}');"
         )
         (box
             :orientation "v"
@@ -98,14 +115,14 @@
                 :class "song"
                 :wrap "true"
                 :limit-width 20
-                :text SONG
+                :text {spotify_metadata.song} ;SONG
             )
             (label
                 :halign "center"
                 :class "artist"
                 :wrap "true"
                 :limit-width 15
-                :text ARTIST
+                :text {spotify_metadata.artist}
             )
             (box
                 :class "buttons"
@@ -123,7 +140,11 @@
                 (button
                     :class "play"
                     :onclick "~/.config/eww/scripts/spotify/spotify-pause.sh"
-                    STATUS
+                    (label :text {
+                        spotify_metadata.status == "Playing"? "󰏤":
+                            spotify_metadata.status == "Paused"? "": "X"
+                            }
+                    )
                 )
                 (button
                     :class "next"
@@ -141,7 +162,7 @@
                     :active "false"
                     :min 0
                     :max 100
-                    :value POSITION_PERCENT
+                    :value position_poll_percent ;;POSITION_PERCENT
                 )
             )
         )
@@ -204,12 +225,13 @@
 ;; CONTROL-CENTER WIDGET
 ;;============================================================
 
-(defpoll volume_level :interval "1s"
-    "pamixer --get-volume"
-)
-(defpoll brightness_level :interval "1s"
-    "brightnessctl -m | awk -F, '{print $4}' | tr -d '%' "
-)
+(deflisten volume_level
+    :initial "0"
+    "~/.config/eww/scripts/control-center/volume-listener.sh")
+
+(deflisten brightness_level
+    :initial "0"
+    "~/.config/eww/scripts/control-center/brightness-listener.sh")
 
 ; --- VOLUME SLIDER WIDGET ---
 (defwidget volume_slider []

@@ -526,3 +526,22 @@
     # Set urgency = low so this rule applies to all normal notifications
     # (unless you want a sound only for critical notifications).
     msg_urgency = critical
+# ~/.config/wal/templates/dunst_colors.conf
+
+# Colors for urgency_low
+[urgency_low]
+background = "#030215"
+foreground = "#c0bfc4"
+frame_color = "#575669"
+
+# Colors for urgency_normal
+[urgency_normal]
+background = "#030215"
+foreground = "#c0bfc4"
+frame_color = "#9E6495"
+
+# Colors for urgency_critical
+[urgency_critical]
+background = "#553B88"
+foreground = "#c0bfc4"
+frame_color = "#553B88"
