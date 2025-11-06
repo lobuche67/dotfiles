@@ -1,3 +1,4 @@
+@import '/home/lobuche/.cache/wal/colors-eww.scss';
 * {
     /* Inherit your terminal/Pywal colors */
     all: unset;
@@ -10,6 +11,11 @@
 	font-weight : bold;
 	font-size : 20px;
 }
+.time-display {
+	font-weight : bold;
+	font-size : 90px;
+}
+$background: #282828;
 .calendar-widget {
     /* FIX: Use rgba() for background color */
     background-color: transparent;
@@ -17,13 +23,8 @@
 
     border-radius: 12px;
     padding: 15px;
-    border: 2px solid #9999FF;
+    border: 2px solid $color5; /*#9999FF;*/
     color: #FFFFFF;
-}
-
-.time-display {
-	font-weight : bold;
-	font-size : 90px;
 }
 
 /* You might need to make the calendar itself transparent too */
@@ -48,7 +49,7 @@
 	border-radius: 14px;
     background-color: transparent;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
 }
 
 .song {
@@ -71,7 +72,7 @@
 
 .buttons button {
     background-color: transparent;
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
     padding: 15px;
 }
 
@@ -87,7 +88,7 @@
 	font-weight : normal;
 	margin: 0px 0px 0px 15px;
     background-color: transparent;
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
     border-radius: 12px;
 }
 .play {
@@ -95,7 +96,7 @@
 	font-weight : bold;
 	margin: 0px 10px 0px 10px;
     background-color: transparent;
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
     border-radius: 12px;
 }
 .next {
@@ -103,19 +104,19 @@
 	font-weight : normal;
 	margin: 0px 15px 0px 0px;
     background-color: transparent;
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
     border-radius: 12px
 }
 .spotify {
     background-color: transparent; /* Dark background with transparency */
     border-radius: 12px;
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
 }
 
 
 .music_bar scale trough highlight {
 	all: unset;
-	background-color: #9999FF;
+	background-color: $color5;
     border-radius: 12px;
 }
 .music_bar scale trough {
@@ -131,7 +132,7 @@
 
 .control-center-container {
     border-radius: 12px;
-    border: 2px solid #9999FF; /* Highlight color */
+    border: 2px solid $color5; /* Highlight color */
 }
 
 .control-box {
@@ -153,7 +154,7 @@ scale {
 /* Style for the slider handle (thumb) */
 scale trough highlight {
     border-radius: 12px;
-	background-color: #9999FF;
+	background-color: $color5;
 }
  scale trough {
 	all: unset;

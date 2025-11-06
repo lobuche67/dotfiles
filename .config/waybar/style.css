@@ -6,6 +6,7 @@
         "Noto Sans";
     /*FontAwesome, Roboto, Helvetica, Arial, sans-serif, "Noto Sans Thai";*/
     font-size: 14px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
 }
 
 window#waybar {

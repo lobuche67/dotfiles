@@ -2,17 +2,23 @@
 
 # Pywal-processed theme block:
 [theme]
-background = "{color0}"
-primary = "{color7}"
-secondary = "{color8}"
-title = "{color4}"
-playing = "{color4}"
-playing_selected = "{color7}"
-playing_bg = "{color0}"
-highlight = "{color7}"
-highlight_bg = "{color4}"
-error = "{color1}"
-error_bg = "{color0}"
-statusbar = "{color7}"
-statusbar_progress = "{color2}"
-statusbar_bg = "{color0}"
+# Base Colors
+background = "{color0}"        # "black" (Pywal's background)
+primary = "{color7}"           # "light white" (Pywal's foreground)
+secondary = "{color8}"         # "light black" (Pywal's bright black)
+title = "{color2}"             # "green" (Pywal's green)
+playing = "{color2}"           # "green" (Pywal's green)
+
+# Bright Colors
+playing_selected = "{color10}" # "light green" (Pywal's bright green)
+playing_bg = "{color0}"        # "black"
+highlight = "{color0}"         # "light white"
+highlight_bg = "{color10}"      # Assuming #484848 is Pywal's bright black or a custom dark gray
+error = "{color7}"             # "light white"
+error_bg = "{color1}"          # "red" (Pywal's red)
+statusbar = "{color0}"         # "black"
+statusbar_progress = "{color2}"# "green"
+statusbar_bg = "{color2}"      # "green"
+cmdline = "{color7}"           # "light white"
+cmdline_bg = "{color0}"        # "black"
+search_match = "{color9}"      # "light red" (Pywal's bright red)

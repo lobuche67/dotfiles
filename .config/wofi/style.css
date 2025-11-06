@@ -1,9 +1,5 @@
-@import url('~/.cache/wal/colors-waybar.css');
+@import url("/home/lobuche/.cache/wal/wofi_colors.css");
 
-@define-color mauve  @color9;
-@define-color red  @color9;
-@define-color lavender  @color7;
-@define-color text  @color7;
 @keyframes fadeIn {
     0% {
     }
@@ -12,28 +8,29 @@
 }
 
 * {
-    all:unset;
-    font-family: 'CodeNewRoman Nerd Font Mono', monospace;
+    all: unset;
+    font-family: "CodeNewRoman Nerd Font Mono", monospace;
     font-size: 18px;
     outline: none;
     border: none;
-    text-shadow:none;
-    background-color:transparent;
+    text-shadow: none;
+    background-color: transparent;
 }
 
 window {
-    all:unset;
     padding: 20px;
-    border-radius: 0px;
-    background-color: alpha(@background,.5);
+    background-color: alpha(@background, 0.7);
+    color: @foreground;
+    border-radius: 8px;
+    border: 2px solid @color11; /* Use Accent 1 for a border */
 }
+
 #inner-box {
-    margin: 2px;
-    padding: 5px
-    border: none;
+    margin: 0px;
 }
+
 #outer-box {
-    border: none;
+    margin: 0px;
 }
 #scroll {
     margin: 0px;
@@ -41,22 +38,22 @@ window {
     border: none;
 }
 #input {
-    all:unset;
-    margin-left:20px;
-    margin-right:20px;
-    margin-top:20px;
+    all: unset;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
     padding: 20px;
     border: none;
     outline: none;
-    color: @text;
-    box-shadow: 1px 1px 5px rgba(0,0,0, .5);
-    border-radius:10;
-    background-color: alpha(@background,.2);
+    color: @foreground;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 10;
+    background-color: alpha(@color0, 0.7);
 }
 #input image {
     border: none;
-    color: @red;
-    padding-right:10px;
+    color: @foreground;
+    padding-right: 10px;
 }
 #input * {
     border: none;
@@ -67,39 +64,39 @@ window {
     outline: none;
     border: none;
 
-    border-radius:10;
+    border-radius: 10;
 }
 #text {
     margin: 5px;
     border: none;
-    color: @text;
-    outline: none;
-}
-#text {
-    margin: 5px;
-    border: none;
-    color: @text;
+    color: @foreground;
     outline: none;
 }
 #entry {
     border: none;
     margin: 5px;
     padding: 10px;
+    background-color: alpha(@background, 0.7);
 }
 #entry arrow {
     border: none;
     color: @lavender;
-
 }
 #entry:selected {
-    box-shadow: 1px 1px 5px rgba(255,255,255, .03);
     border: none;
     border-radius: 20px;
-    background-color:transparent;
+    background-color: alpha(@color12, 0.7);
+    box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.03);
+    color: @foreground;
 }
 #entry:selected #text {
-    color: @mauve;
+    color: @color0;
 }
 #entry:drop(active) {
-    background-color: @lavender !important;
+    background-color: alpha(@color12, 0.7);
+}
+#scrollbar {
+    background-color: alpha(@color8, 0.7);
+    border: none;
+    margin: 5px;
 }
