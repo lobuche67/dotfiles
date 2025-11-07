@@ -15,7 +15,7 @@
     // Title
     {
       "type": "title",
-      "format": "{#1}╭───────────── {#}{user-name-colored}",
+      "format": "{#1}╭───────────── {#}{user-name-colored} ─────────────",
     },
     // System Information
     {
@@ -48,8 +48,14 @@
     },
     {
       "type": "command",
-      "key": "{#separator}│  {#keys}󰅐 Age",
+      "key": "{#separator}│  {#keys}󰅐 OS Age",
       "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days",
+      "keyColor": "blue",
+    },
+    {
+      "type": "command",
+      "key": "{#separator}│  {#keys} OS Birthday",
+      "text": "birth_install=$(stat -c %W /); echo $(date -d @$birth_install '+%d-%b-%Y')",
       "keyColor": "blue",
     },
     {
@@ -149,7 +155,7 @@
     // Footer
     {
       "type": "custom",
-      "format": "{#1}╰───────────────────────────────╯",
+      "format": "{#1}╰──────────────────────────────────────╯",
     },
   ],
 }

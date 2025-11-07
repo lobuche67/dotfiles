@@ -1,14 +1,16 @@
 #!/bin/bash
 
-status=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.ncspot /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:"org.mpris.MediaPlayer2.Player" string:"PlaybackStatus" | grep "string")
+PLAYER_NAME="ncspot" # <-- Updated to match your specific player
+
+status=$(playerctl -p "$PLAYER_NAME" status)
 
 status="${status#*\"}"
 status="${status%\"*}"
 
 if [ "$status" == "Playing" ]; then
-    dbus-send --print-reply --dest=org.mpris.MediaPlayer2.ncspot /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Pause > /dev/null 2>&1
+    playerctl -p "$PLAYER_NAME" pause > /dev/null 2>&1
     echo "󰐊"
 else
-    dbus-send --print-reply --dest=org.mpris.MediaPlayer2.ncspot /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Play > /dev/null 2>&1
+    playerctl -p "$PLAYER_NAME" play > /dev/null 2>&1
     echo "󰏤"
 fi
