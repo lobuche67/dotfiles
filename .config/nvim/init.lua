@@ -103,6 +103,10 @@ require("lazy").setup({
         vim.cmd("colorscheme neopywal")
     end
   },
+  {
+    'elkowar/yuck.vim',
+    ft = 'yuck', -- Ensures the filetype is recognized
+  },
 
 })
 

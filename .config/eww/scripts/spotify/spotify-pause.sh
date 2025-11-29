@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PLAYER_NAME="ncspot" # <-- Updated to match your specific player
+PLAYER_NAME="spotify_player" # <-- Updated to match your specific player
 
 status=$(playerctl -p "$PLAYER_NAME" status)
 

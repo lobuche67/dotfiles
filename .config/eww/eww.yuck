@@ -221,7 +221,60 @@
     (time_widget)
 )
 
-;; ====================================
+
+;;============================================================
+;; QUOTES WIDGET
+;;============================================================
+
+(defpoll quotes
+    :interval "5m" `~/.config/eww/scripts/quote.sh`
+)
+
+
+(defwidget quotes_widget []
+    (box
+        :class "winbox"
+        (box
+            :class "quote_box"
+            :orientation "h"
+            :valign "center"
+            :halign "center"
+            :spacing 10
+            :space-evenly "false"
+            (label
+                :class "quote_text"
+                :valign "center"
+                :halign "center"
+                :text "\"${quotes}\""
+                :wrap true
+                :justify "center"
+                :show-truncated false
+            )
+        )
+    )
+)
+
+
+(defwindow quotes_window
+    :monitor 0
+    :stacking "bottom"
+    :geometry (geometry
+        :width "800px"
+        :height "0px"
+        :anchor "center top"
+        :x "0px"
+        :y "200px"
+    )
+    :reserve (struts
+        :distance "80px"
+        :side "top")
+    :windowtype "dock"
+    :wm-ignore false
+    (quotes_widget)
+)
+
+
+;; =========================================================
 ;; CONTROL-CENTER WIDGET
 ;;============================================================
 
@@ -308,52 +361,83 @@
 
 
 ;;============================================================
-;; QUOTES WIDGET
+;; NAS-SSH BUTTON
 ;;============================================================
 
-(defpoll quotes
-    :interval "5m" `~/.config/eww/scripts/quote.sh`
+
+(defwidget nas_button_widget []
+  (button :class "nas-ssh-button"
+          :onclick "~/scripts/open_nas_ssh.sh &" ; The "&" detaches the script, so Eww doesn't freeze.
+          " OMV Server")) ; This is the 'Hard Drive' icon ($f0a0) in Nerd Font
+
+;;============================================================
+;; JELLYFIN ACTIVITY STATUS
+;;============================================================
+
+(defpoll jellyfin_status :interval "1m"
+  :initial "  Quiet"
+  "~/scripts/jellyfin_session_count.sh")
+
+(defwidget jellyfin_status_widget []
+  (box
+      :class "jellyfin-container"
+      :space-evenly false
+      :spacing 8
+      :orientation: "h"
+      :halign "center"
+      :valign "center"
+      (label
+          :text "Jellyfin: "
+      )
+      (label 
+          :class "jellyfin-status" 
+          :text jellyfin_status
+      )
+  )
 )
 
+(defwindow nas-panel
+  :monitor 0                             ; Which monitor to display on (0 is primary)
+  :stacking "bottom"                     ; Should appear above normal windows
+  :exclusive false                       ; Should NOT reserve space (it's a floating widget)
+  :focusable false                       ; Cannot receive focus (Hyprland will ignore it)
+  :windowtype "dock"                     ; Use 'dock' or 'normal' (dock is common for Hyprland widgets)
+  :wm-ignore true                        ; Tell the Window Manager (Hyprland) to ignore it
 
-(defwidget quotes_widget []
+  ; Define the position and size of the window
+  :geometry (geometry :x "100px"          ; 20px offset from the left edge
+                      :y "300px"          ; 20px offset from the top edge
+                      :width "50px"       ; Small fixed width
+                      :height "50px"      ; Small fixed height
+                      :anchor "right top") ; Anchor point for the coordinates
+
+  ; The content of the window is the widget we defined above
     (box
-        :class "winbox"
+        :class "control-center-container"
+        :orientation "v"
+        :halign "center"
+        :valign "center"
+        :space-evenly "false"
         (box
-            :class "quote_box"
             :orientation "h"
-            :valign "center"
-            :halign "center"
-            :spacing 10
+            :spacing 20
             :space-evenly "false"
-            (label
-                :class "quote_text"
-                :valign "center"
-                :halign "center"
-                :text "\"${quotes}\""
-                :wrap true
-                :justify "center"
-                :show-truncated false
-            )
+            :vexpand "false"
+            :hexpand "true"
+            :halign "center"
+            (nas_button_widget)
         )
+        (box
+            :orientation "h"
+            :spacing 20
+            :space-evenly "false"
+            :vexpand "false"
+            :hexpand "true"
+            (jellyfin_status_widget)
+        )
+
+        
     )
 )
 
 
-(defwindow quotes_window
-    :monitor 0
-    :stacking "bottom"
-    :geometry (geometry
-        :width "800px"
-        :height "0px"
-        :anchor "center top"
-        :x "0px"
-        :y "200px"
-    )
-    :reserve (struts
-        :distance "80px"
-        :side "top")
-    :windowtype "dock"
-    :wm-ignore false
-    (quotes_widget)
-)

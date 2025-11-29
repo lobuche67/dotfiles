@@ -530,18 +530,19 @@
 
 # Colors for urgency_low
 [urgency_low]
-background = "#0B1615AD"
-foreground = "#c2c4c4"
-frame_color = "#596d6a"
+background = "#0f0f16AD"
+foreground = "#c3c3c4"
+frame_color = "#5a5a6f"
+highlight = "#334B5A"
 
 # Colors for urgency_normal
 [urgency_normal]
-background = "#0B1615AD"
-foreground = "#c2c4c4"
-frame_color = "#65955A"
+background = "#0f0f16AD"
+foreground = "#c3c3c4"
+frame_color = "#9F6B3C"
 
 # Colors for urgency_critical
 [urgency_critical]
-background = "#556B52AD"
-foreground = "#c2c4c4"
-frame_color = "#556B52"
+background = "#203C60AD"
+foreground = "#c3c3c4"
+frame_color = "#203C60"

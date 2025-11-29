@@ -19,6 +19,7 @@ fi
 
 # --- System Information Utility ---
 fastfetch
+fortune -s humorists | cowsay -r
 
 # Set Fzf to use 'bat' for syntax highlighting previews
 export FZF_DEFAULT_OPTS="--layout=reverse --info=inline --preview='bat --color=always --style=numbers --style=changes {}'"

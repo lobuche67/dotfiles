@@ -28,7 +28,8 @@ ln -f -s $WALLPAPER_FILE ~/.config/hypr/hyprpaper-wallpaper.png
 # The unload all command is typically safe and simple for managing VRAM.
 
 # ... rest of the script (Waybar/Eww reload) ...
-killall -SIGUSR2 waybar || waybar &
+pkill -9 waybar; waybar &
+killall -SIGUSR2 cava
 eww reload
 
 echo "Done."

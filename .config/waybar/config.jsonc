@@ -40,13 +40,14 @@
     "icon": true
   },
   "hyprland/workspaces": {
-    "persistent-workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": []
-    },
+    //"all-outputs": false,
+    //"persistent-workspaces": {
+    //  "1": [],
+    //  "2": [],
+    //  "3": [],
+    //  "4": [],
+    //  "5": []
+    //},
     "show-special": true
   },
   "hyprland/submap": {

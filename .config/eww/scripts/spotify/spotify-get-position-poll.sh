@@ -3,7 +3,7 @@
 # Performs the position calculation every 1 second, but only when running.
 # Uses the microsecond-based logic that was previously debugged.
 
-PLAYER_NAME="ncspot"
+PLAYER_NAME="spotify_player"
 
 POSITION_US=$(playerctl -p "$PLAYER_NAME" metadata --format '{{ position }}' 2>/dev/null)
 LENGTH_US=$(playerctl -p "$PLAYER_NAME" metadata --format '{{ mpris:length }}' 2>/dev/null)

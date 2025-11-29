@@ -67,8 +67,23 @@ if [ -n "$selected" ]; then
 
     # Check if random wallpaper was selected
     if [[ "$thumbnail_path" == "$SHUFFLE_ICON" ]]; then
-        # Select a random wallpaper from the directory
-        original_path=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | shuf -n 1)
+        # Populate an array with all matching files
+        # The 'nullglob' option ensures the array is empty if no files match
+        shopt -s nullglob
+        mapfile -t all_wallpapers < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \))
+        shopt -u nullglob # Turn off nullglob after use
+
+        count=${#all_wallpapers[@]}
+
+        if (( count > 0 )); then
+            # Generate a random index number within the bounds of the array
+            random_index=$(( RANDOM % count ))
+        
+            # Select the file at the random index
+            original_path="${all_wallpapers[random_index]}"
+        else
+            echo "Error: No wallpapers found in $WALLPAPER_DIR" >&2
+        fi
     else
         # Get the original filename from the thumbnail path
         original_filename=$(basename "${thumbnail_path%.*}")

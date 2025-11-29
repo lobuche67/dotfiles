@@ -6,6 +6,7 @@
     font-size: 16px;
     background-color: transparent;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
 }
 .date-display {
 	font-weight : bold;
@@ -46,7 +47,7 @@ $background: #282828;
 	min-height: 220px;
 	min-width: 220px;
 	margin: 20px;
-	border-radius: 14px;
+	border-radius: 12px;
     background-color: transparent;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.75);
     border: 2px solid $color5; /* Highlight color */
@@ -79,7 +80,7 @@ $background: #282828;
 .buttons button:hover,
 .buttons button:active,
 .buttons button:focus {
-    background-color: rgba(165, 108, 136, 0.3);
+    background-color: fade-out($color2, 0.5);
      /*color: #A56C88; Keep the hover color change visible */
 }
 
@@ -105,7 +106,7 @@ $background: #282828;
 	margin: 0px 15px 0px 0px;
     background-color: transparent;
     border: 2px solid $color5; /* Highlight color */
-    border-radius: 12px
+    border-radius: 12px;
 }
 .spotify {
     background-color: transparent; /* Dark background with transparency */
@@ -123,7 +124,7 @@ $background: #282828;
 	all: unset;
 	background-color: rgba(0, 0, 0, 0.4);
 
-	border-radius: 8px;
+	border-radius: 12px;
 	min-height: 20px;
 	min-width: 200px;
 	margin : 10px 0px 0px 0px;
@@ -190,4 +191,34 @@ scale slider {
 	font-size : 32px;
 	font-style: italic;
 	font-weight : bold;
+}
+
+/* --- Floating NAS Panel Window Style --- */
+window#nas-panel {
+    background-color: rgba(30, 30, 46, 0.9); /* Dark, slightly transparent background */
+    border: 2px solid $color5; /* A subtle border to frame the button */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* --- SSH Button Style --- */
+.nas-ssh-button {
+    color: #FFFFFF; /* Green for go/connect */
+    background-color: transparent;
+    padding: 10px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nas-ssh-button:hover {
+    background-color: fade-out($color2, 0.5);
+    color: #FFFFFF; /* Lighter green on hover */
+}
+.jellyfin-container {
+    padding: 10px 15px;
+    background-color: transparent; /* Slightly different background */
+    
+}
+.jellyfin-status {
+    
+    /* Dynamically change color based on content */
+    color: #FFFFFF; /* Default text color */
 }
