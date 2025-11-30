@@ -2,67 +2,50 @@
 
 # --- CONFIGURATION ---
 MAGIC_WORKSPACE="magic"
-STATE_FILE="/tmp/hypr_magic_restore_final.map"
+STATE_FILE="/tmp/hypr_magic_restore.map"
 
 # --- CORE LOGIC ---
 
 # SCENARIO 1: RESTORE WINDOWS (State file exists)
 if [ -s "$STATE_FILE" ]; then
 
-    echo "Restoring windows from $MAGIC_WORKSPACE to original monitors..."
+    CLEAN_STATE=$(tr -d '\r' < "$STATE_FILE")
 
-    while IFS=: read -r ADDRESS ORIGINAL_WORKSPACE_ID ORIGINAL_MONITOR; do
+    # Pass 1: Build commands to move windows back to their original workspaces.
+    # This forces Hyprland to re-create any de-allocated workspaces.
+    WINDOW_CMDS=$(echo "$CLEAN_STATE" | awk -F: '{print "dispatch movetoworkspacesilent " $2 ",address:"$1}')
 
-        # 1. Ensure the original workspace is on the correct monitor
-        hyprctl dispatch moveworkspacetomonitor "$ORIGINAL_WORKSPACE_ID" "$ORIGINAL_MONITOR"
+    # Pass 2: Build commands to move the now-existing workspaces to their original monitors.
+    WORKSPACE_CMDS=$(echo "$CLEAN_STATE" | cut -d: -f2,3 | sort -u | awk -F: '{print "dispatch moveworkspacetomonitor " $1 " " $2}')
 
-        # 2. Move the window back to its original workspace ID
-        hyprctl dispatch movetoworkspacesilent "$ORIGINAL_WORKSPACE_ID",address:"$ADDRESS"
+    # Combine commands into a single batch. Window moves MUST come first.
+    BATCH_CMD=$( (echo "$WINDOW_CMDS"; echo "$WORKSPACE_CMDS") | paste -sd';' )
 
-    done < "$STATE_FILE"
+    # Execute the entire transaction atomically.
+    hyprctl --batch "$BATCH_CMD"
 
+    # Clean up the state file.
     rm "$STATE_FILE"
 
 # SCENARIO 2: STASH WINDOWS (Active windows exist)
-elif hyprctl clients -j | jq -e '.[] | select(.workspace.id != -1)' > /dev/null; then
+elif hyprctl clients -j | jq -e '.[] | select(.workspace.id > 0)' > /dev/null; then
 
-    echo "Stashing all visible windows to $MAGIC_WORKSPACE..."
+    # Create the state file.
+    jq -r -n --argjson clients "$(hyprctl clients -j)" --argjson workspaces "$(hyprctl workspaces -j)" '
+        ($workspaces | map({(.id|tostring): .monitor}) | add) as $ws_to_monitor |
+        $clients | map(
+            select(.workspace.id > 0 and .workspace.name != "special:'"$MAGIC_WORKSPACE"'") |
+            .address + ":" + (.workspace.id|tostring) + ":" + $ws_to_monitor[(.workspace.id|tostring)]
+        ) | .[]
+    ' > "$STATE_FILE"
 
-    # 1. Get the simple map of Workspace ID to Monitor Name
-    # We use a filter that ensures it's operating on the objects inside the array.
-    # The parentheses around (.id) and (.monitor) ensure they are processed correctly as fields.
-    WORKSPACE_MONITOR_MAP=$(hyprctl workspaces -j | jq -r '.[] | (.id | tostring) + ":" + .monitor')
+    if [ ! -s "$STATE_FILE" ]; then exit 0; fi
 
-    # 2. Get client addresses and workspace IDs
-    CLIENT_LIST=$(hyprctl clients -j | jq -r '.[] | select(.workspace.id != -1 and .workspace.name != "special:'"$MAGIC_WORKSPACE"'") | .address + ":" + (.workspace.id | tostring)')
-
-    # 3. Iterate and process each window
-    echo "$CLIENT_LIST" | while IFS=: read -r ADDRESS ORIGINAL_WORKSPACE_ID; do
-
-        # LOOKUP: Search the workspace map for the monitor name
-        MONITOR_NAME=$(echo "$WORKSPACE_MONITOR_MAP" | grep "^$ORIGINAL_WORKSPACE_ID:" | cut -d: -f2)
-
-        # If the monitor name is found, store the state (ADDRESS:ID:MONITOR)
-        if [ -n "$MONITOR_NAME" ]; then
-            echo "$ADDRESS:$ORIGINAL_WORKSPACE_ID:$MONITOR_NAME" >> "$STATE_FILE"
-        fi
-
-        # Move the window to the special workspace silently
-        hyprctl dispatch movetoworkspacesilent special:"$MAGIC_WORKSPACE",address:"$ADDRESS"
-
-    done
-
-    # Check if anything was stashed before proceeding
-    if [ ! -s "$STATE_FILE" ]; then
-        echo "No clients were found to stash."
-        exit 0
-    fi
-
-    # Toggle the special workspace to ensure the desktop appears empty (Show Desktop effect)
-    # hyprctl dispatch togglespecialworkspace $MAGIC_WORKSPACE
-
+    # Build and execute the stash command in a single batch.
+    BATCH_STASH_CMD=$(cut -d: -f1 "$STATE_FILE" | awk -v ws="special:$MAGIC_WORKSPACE" '{print "dispatch movetoworkspacesilent " ws ",address:"$1}' | paste -sd';')
+    hyprctl --batch "$BATCH_STASH_CMD"
 
 else
-    # SCENARIO 3: NO WINDOWS TO HIDE
-    echo "No visible windows to stash."
+    # SCENARIO 3: NO WINDOWS TO HIDE, DO NOTHING.
+    exit 0
 fi

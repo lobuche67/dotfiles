@@ -13,10 +13,8 @@ LENGTH_US=${LENGTH_US:-0}
 
 POSITION_PERCENT=0
 
-if [ "$LENGTH_US" -gt 0 ]; then
-    # Calculate percentage: (Position / Length) * 100
-    RAW_PERCENT=$(echo "scale=2; ($POSITION_US / $LENGTH_US) * 100" | bc)
-    POSITION_PERCENT=$(echo "$RAW_PERCENT" | cut -d'.' -f1) # Truncate to integer
-fi
-
+    if [ "$LENGTH_US" -gt 0 ]; then
+        # Use shell integer arithmetic for efficiency
+        POSITION_PERCENT=$(( (POSITION_US * 100) / LENGTH_US ))
+    fi
 echo "$POSITION_PERCENT" # Output the percentage directly
