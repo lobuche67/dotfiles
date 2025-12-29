@@ -222,3 +222,29 @@ window#nas-panel {
     /* Dynamically change color based on content */
     color: #FFFFFF; /* Default text color */
 }
+
+/* --- Docker Updates Widget Style --- */
+.docker-updates-widget {
+    padding: 10px 15px;
+    background-color: transparent;
+    color: #FFFFFF; /* Gold color to indicate an alert/update */
+}
+
+.docker-update-label {
+    font-weight: bold;
+}
+
+.docker-updates-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #FFFFFF; /* Gold color for the title */
+}
+
+.docker-update-item {
+    margin-left: 10px; /* Indent individual items */
+}
+
+.docker-update-bullet {
+    color: #FFFFFF; /* Gold bullet point */
+    margin-left: 10px; /* Indent individual items */
+}

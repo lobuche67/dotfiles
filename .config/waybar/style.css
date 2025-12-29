@@ -181,7 +181,7 @@ button:hover {
     background-color: transparent;
     color: #f53c3c;
     animation-name: blink;
-    animation-duration: 0.5s;
+    animation-duration: 1s;
     animation-timing-function: steps(12);
     animation-iteration-count: infinite;
     animation-direction: alternate;
@@ -391,6 +391,23 @@ label:focus {
 
 #privacy-item.audio-out {
     background-color: #0069d4;
+}
+
+#custom-rotation-lock {
+    padding: 0 10px;
+    margin: 0 5px;
+}
+
+/* When Auto-Rotation is ON */
+#custom-rotation-lock.active {
+    background-color: transparent; /* Green */
+    color: #a56c88;
+}
+
+/* When Rotation is LOCKED */
+#custom-rotation-lock.locked {
+    background-color: transparent; /* Red */
+    color: #ffffff;
 }
 
 /* Style for the Power Button */

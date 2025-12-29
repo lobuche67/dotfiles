@@ -383,7 +383,7 @@
       :class "jellyfin-container"
       :space-evenly false
       :spacing 8
-      :orientation: "h"
+      :orientation "h"
       :halign "center"
       :valign "center"
       (label
@@ -396,6 +396,44 @@
   )
 )
 
+;;============================================================
+;; DOCKER UPDATES WIDGET
+;;============================================================
+
+(defpoll updatable_containers :interval "5m"
+  :initial ""
+  "bash /home/lobuche/.config/eww/scripts/check_all_docker_updates.sh")
+
+(defwidget docker_updates_widget []
+  (box
+    :class "docker-updates-widget"
+    :orientation "v"
+    :space-evenly false
+    :spacing 4
+    :valign "center"
+    :halign "center"
+    :vexpand "true"
+    ;:visible {updatable_containers != ""}
+    (label :text "Available updates: " 
+           :halign "start" 
+           :class "docker-updates-title")
+    (for container in updatable_containers
+      (box
+        :class "docker-update-item"
+        :orientation "h"
+        :space-evenly false
+        :spacing 4
+        :vexpand "true"
+        :halign "start"
+        :valign "center"
+        (label :text "•" :class "docker-update-bullet")
+        (label :class "docker-update-label" :text container)
+      )
+    )
+  )
+)
+
+
 (defwindow nas-panel
   :monitor 0                             ; Which monitor to display on (0 is primary)
   :stacking "bottom"                     ; Should appear above normal windows
@@ -407,16 +445,15 @@
   ; Define the position and size of the window
   :geometry (geometry :x "100px"          ; 20px offset from the left edge
                       :y "300px"          ; 20px offset from the top edge
-                      :width "50px"       ; Small fixed width
-                      :height "50px"      ; Small fixed height
+                      :width "300px"       ; Increased width to fit content
                       :anchor "right top") ; Anchor point for the coordinates
 
   ; The content of the window is the widget we defined above
     (box
         :class "control-center-container"
         :orientation "v"
-        :halign "center"
         :valign "center"
+        :halign "start"
         :space-evenly "false"
         (box
             :orientation "h"
@@ -435,8 +472,16 @@
             :hexpand "true"
             (jellyfin_status_widget)
         )
+        (box
+            :orientation "v"
+            :spacing 20
+            :space-evenly "false"
+            :vexpand "true"
+            :hexpand "true"
+            (docker_updates_widget)
+        )
 
-        
+        ;(docker_updates_widget) ; <-- Add the new widget here
     )
 )
 

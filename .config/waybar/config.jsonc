@@ -27,6 +27,8 @@
     //"hyprland/language",
     "battery",
     "clock",
+    "custom/rotation-lock",
+    "custom/vkeyboard",
     "tray",
     "custom/power"
   ],
@@ -316,6 +318,20 @@
     },
     "escape": true,
     "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+  },
+  "custom/rotation-lock":{
+    "exec": "~/scripts/rotation-controller.sh",
+    "return-type": "json",
+    "interval": 2,            // Check status every 2 seconds
+    "format": "{}",           // Just show the icon
+    "on-click": "~/scripts/rotation-controller.sh --toggle; pkill -SIGRTMIN+8 waybar",
+    "signal": 8,              // Allows instant update on click
+    "tooltip": true
+  },
+  "custom/vkeyboard": {
+    "format": " ",
+    "on-click": "~/scripts/toggle-vkeyboard.sh",
+    "tooltip": false
   },
   "custom/power": {
     "format": "⏻ ",

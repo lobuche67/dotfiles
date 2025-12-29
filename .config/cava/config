@@ -344,14 +344,14 @@ gradient_color_8 = '#FF5555'
 [color]
 gradient = 1
 gradient_count = 8
-foreground = "#c3c3c4"
-background = "#0f0f16"
+foreground = "#c2c1c1"
+background = "#0c0708"
 
-gradient_color_1 = "#203C60"
-gradient_color_2 = "#334B5A"
-gradient_color_3 = "#5A5E52"
-gradient_color_4 = "#9F6B3C"
-gradient_color_5 = "#93754C"
-gradient_color_6 = "#C69D60"
-gradient_color_7 = "#c3c3c4"
-gradient_color_8 = "#5a5a6f"
+gradient_color_1 = "#5A5861"
+gradient_color_2 = "#B84A31"
+gradient_color_3 = "#78807A"
+gradient_color_4 = "#E0A355"
+gradient_color_5 = "#30708B"
+gradient_color_6 = "#3C9DAC"
+gradient_color_7 = "#c2c1c1"
+gradient_color_8 = "#68555a"
