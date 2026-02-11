@@ -15,7 +15,7 @@
     // Title
     {
       "type": "title",
-      "format": "{#1}╭───────────── {#}{user-name-colored} ─────────────",
+      "format": "{#1}╭───────────── {#}{user-name-colored}{at-symbol-colored}{host-name-colored} ─────────────",
     },
     // System Information
     {
@@ -28,15 +28,42 @@
     },
     {
       "type": "os",
-      "key": "{#separator}│  {#keys}󰍹 OS",
+      "key": "{#separator}│  {#keys} OS",
+      "format": "Gentoo Linux",
     },
     {
       "type": "host",
-      "key": "{#separator}│  {#keys}🖥 Host",
+      "key": "{#separator}│  {#keys}󰌢 Host",
+      "format": "ZenBook UX362FA",
     },
     {
       "type": "kernel",
       "key": "{#separator}│  {#keys}󰒋 Kernel",
+    },
+    {
+      "type": "wm",
+      "key": "{#separator}│  {#keys}󱂬 WM",
+    },
+    {
+        "type": "command",
+        "key": "{#separator}│  {#keys} Init", 
+        "text": "echo \"systemd 258 (via systemd-boot)\"",
+        "keyColor": "magenta"
+    },
+    {
+        "type": "command",
+        "key": "{#separator}│  {#keys}󱎫 Boot",
+        "text": "cat /tmp/boot_speed",
+        "keyColor": "magenta"
+    },
+    {
+      "type": "custom",
+      "format": "{#1}│",
+    },
+    // Maintenance
+    {
+      "type": "custom",
+      "format": "{#1}│ {#}Maintenance",
     },
     {
       "type": "uptime",
@@ -48,15 +75,13 @@
     },
     {
       "type": "command",
-      "key": "{#separator}│  {#keys}󰅐 OS Age",
-      "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days",
-      "keyColor": "blue",
+      "key": "{#separator}│  {#keys} World",
+      "text": "if [ -f ~/.last_successful_world ]; then FILE_SEC=$(stat -c %Y ~/.last_successful_world); NOW_SEC=$(date +%s); DIFF_DAYS=$(( (NOW_SEC - FILE_SEC) / 86400 )); DATE=$(date -d @$FILE_SEC '+%d-%b-%Y'); STATS=$(cat ~/.last_world_stats); echo \"$DATE ($DIFF_DAYS days ago) ($STATS)\"; else echo 'Never'; fi",
     },
     {
       "type": "command",
-      "key": "{#separator}│  {#keys} OS Birthday",
-      "text": "birth_install=$(stat -c %W /); echo $(date -d @$birth_install '+%d-%b-%Y')",
-      "keyColor": "blue",
+      "key": "{#separator}│  {#keys} Born",
+      "text": "birth=$(stat -c %W /); b_date=$(date -d @$birth +%Y-%m-%d); cur_date=$(date +%Y-%m-%d); m=$(( ($(date -d $cur_date +%Y) - $(date -d $b_date +%Y)) * 12 + $(date -d $cur_date +%m) - $(date -d $b_date +%m) )); if [ $(date -d $cur_date +%d) -lt $(date -d $b_date +%d) ]; then m=$((m - 1)); fi; total_days=$(( ($(date +%s) - birth) / 86400 )); d=$(( total_days - (m * 30) )); echo \"$(date -d @$birth +%d-%b-%Y) ($m months $d days)\"",
     },
     {
       "type": "custom",
@@ -64,50 +89,46 @@
     },
 
     // Desktop Environment
-    {
-      "type": "custom",
-      "format": "{#1}│ {#}Desktop Environment",
-    },
-    {
-      "type": "de",
-      "key": "{#separator}│  {#keys}󰧨 DE",
-    },
-    {
-      "type": "wm",
-      "key": "{#separator}│  {#keys}󱂬 WM",
-    },
-    {
-      "type": "wmtheme",
-      "key": "{#separator}│  {#keys}󰉼 Theme",
-    },
-    {
-      "type": "icons",
-      "key": "{#separator}│  {#keys} Icons",
-    },
-    {
-      "type": "font",
-      "key": "{#separator}│  {#keys}󰛖 Font",
-    },
-    {
-      "type": "display",
-      "key": "{#separator}│  {#keys}󰹑 Resolution",
-    },
-    {
-      "type": "shell",
-      "key": "{#separator}│  {#keys}󰞷 Shell",
-    },
-    {
-      "type": "terminal",
-      "key": "{#separator}│  {#keys} Terminal",
-    },
-    {
-      "type": "terminalfont",
-      "key": "{#separator}│  {#keys}󰛖 Font",
-    },
-    {
-      "type": "custom",
-      "format": "{#1}│",
-    },
+    //{
+    //  "type": "custom",
+    //  "format": "{#1}│ {#}Desktop Environment",
+    //},
+    //{
+    //  "type": "de",
+    //  "key": "{#separator}│  {#keys}󰧨 DE",
+    //},
+    //{
+    //  "type": "wmtheme",
+    //  "key": "{#separator}│  {#keys}󰉼 Theme",
+    //},
+    //{
+    //  "type": "icons",
+    //  "key": "{#separator}│  {#keys} Icons",
+    //},
+    //{
+    //  "type": "font",
+    //  "key": "{#separator}│  {#keys}󰛖 Font",
+    //},
+    //{
+    //  "type": "display",
+    //  "key": "{#separator}│  {#keys}󰹑 Resolution",
+    //},
+    //{
+    //  "type": "shell",
+    //  "key": "{#separator}│  {#keys}󰞷 Shell",
+    //},
+    //{
+    //  "type": "terminal",
+    //  "key": "{#separator}│  {#keys} Terminal",
+    //},
+    //{
+    //  "type": "terminalfont",
+    //  "key": "{#separator}│  {#keys}󰛖 Font",
+    //},
+    //{
+    //  "type": "custom",
+    //  "format": "{#1}│",
+    //},
     // Hardware Information
     {
       "type": "custom",
@@ -125,10 +146,10 @@
       "type": "memory",
       "key": "{#separator}│  {#keys}󰍛 Memory",
     },
-    {
-      "type": "localip",
-      "key": "{#separator}│  {#keys}🖧 LocalIP",
-    },
+    //{
+    //  "type": "localip",
+    //  "key": "{#separator}│  {#keys}🖧 LocalIP",
+    //},
     {
       "type": "battery",
       "key": "{#separator}│  {#keys} Battery",
@@ -138,10 +159,10 @@
       "key": "{#separator}│  {#keys}󰋊 Disk (/)",
       "folders": "/",
     },
-    {
-      "type": "swap",
-      "key": "{#separator}│  {#keys}󰋊 Swap",
-    },
+    //{
+    //  "type": "swap",
+    //  "key": "{#separator}│  {#keys}󰋊 Swap",
+    //},
     {
       "type": "custom",
       "format": "{#1}│",

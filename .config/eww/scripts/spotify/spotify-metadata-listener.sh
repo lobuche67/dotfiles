@@ -4,7 +4,7 @@
 # Requires: playerctl and jq
 
 # --- Configuration ---
-PLAYER_NAME="spotify_player" # <-- Updated to match your specific player
+PLAYER_NAME="naviterm" # <-- Updated to match your specific player
 
 # --- Dependency Check ---
 if ! command -v playerctl >/dev/null || ! command -v jq >/dev/null; then

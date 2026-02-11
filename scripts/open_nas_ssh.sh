@@ -14,7 +14,7 @@ NAS_HOST="192.168.0.4"
 
 # 3. Your Preferred Terminal Emulator
 # Replace 'alacritty' with your Hyprland terminal choice: kitty, foot, wezterm, etc.
-TERMINAL="kitty"
+TERMINAL="rio"
 
 # ====================================================================
 # Execution
@@ -25,6 +25,7 @@ TERMINAL="kitty"
 
 # -e is the common flag used by most terminals to execute a command
 # and keep the terminal open until that command finishes.
+# "$TERMINAL" -e kitten ssh -p 6789 "$NAS_USER"@"$NAS_HOST"
 "$TERMINAL" -e ssh -p 6789 "$NAS_USER"@"$NAS_HOST"
 
 # Note: The Eww button handler already runs this script in the background

@@ -83,11 +83,11 @@
 ;;     :interval "1s" `~/.config/eww/scripts/spotify/spotify-status.sh`
 ;; )
 
-(defpoll POSITION_PERCENT
-    :interval "1s"
-    :initial "0"
-    `~/.config/eww/scripts/spotify/spotify-position-percent.sh`
-)
+;; (defpoll POSITION_PERCENT
+;;     :interval "1s"
+;;     :initial "0"
+;;     `~/.config/eww/scripts/spotify/spotify-position-percent.sh`
+;; )
 
 ;; spotify
 (defwidget spotify []
@@ -400,7 +400,7 @@
 ;; DOCKER UPDATES WIDGET
 ;;============================================================
 
-(defpoll updatable_containers :interval "5m"
+(defpoll updatable_containers :interval "24h"
   :initial ""
   "bash /home/lobuche/.config/eww/scripts/check_all_docker_updates.sh")
 

@@ -13,7 +13,8 @@
   "modules-center": ["hyprland/workspaces", "custom/spacer", "mpris"],
   "modules-right": [
     //"mpd",
-    "idle_inhibitor",
+    //"idle_inhibitor",
+    "custom/inhibit",
     //"custom/volume",
     "wireplumber",
     //"network",
@@ -38,6 +39,15 @@
     "tooltip": false
   },
   "hyprland/window": {
+    "format": "{title}",
+    "format-floating": " {title}",
+    "format-fullscreen": " {title}",
+    "rewrite": {
+        // Keep this empty for a moment to test the state icons
+        // Or use it to shorten long titles (like browsers)
+        "(.*) — Mozilla Firefox": "󰈹 $1",
+        "(.*) - Brave": "󰖟 $1"
+    },
     "separate-outputs": true,
     "icon": true
   },
@@ -110,6 +120,18 @@
     },
     "tooltip-format-activated": " Idle Inhibitor: Active\nSystem will not sleep",
     "tooltip-format-deactivated": " Idle Inhibitor: Inactive\nSystem sleep enabled"
+  },
+  "custom/inhibit": {
+    "format": "{icon}",
+    "format-icons": {
+        "activated": "☕",  
+        "deactivated": "💤" 
+    },
+    "return-type": "json",
+    "exec": "if pgrep -x -f 'systemd-inhibit --what=idle --who=lobuche --why=manual-idle-inhibitor --mode=block sleep infinity' > /dev/null; then echo '{\"alt\": \"activated\", \"tooltip\": \"Inhibitor Active\"}'; else echo '{\"alt\": \"deactivated\", \"tooltip\": \"Inhibitor Inactive\"}'; fi",
+    "on-click": "~/.config/hypr/scripts/toggle_inhibit.sh",
+    "interval": "once",
+    "signal": 10
   },
   "tray": {
     "icon-size": 21,
